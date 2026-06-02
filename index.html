@@ -798,6 +798,91 @@
             .metrics-grid { grid-template-columns: 1fr; }
         }
 
+        /* ═══════════════════════════════
+           GALERIA DE DEPOIMENTOS (vídeo + imagem · 9:16)
+        ═══════════════════════════════ */
+        .gallery-viewport {
+            overflow-x: auto; overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; cursor: grab; user-select: none;
+            padding: 8px 0 4px;
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+                    mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+        }
+        .gallery-viewport::-webkit-scrollbar { display: none; }
+        .gallery-viewport.dragging { cursor: grabbing; }
+        .gallery-track { display: flex; align-items: flex-start; gap: 20px; width: max-content; padding: 0 20px; }
+        .dep-item {
+            flex: 0 0 auto; width: clamp(214px, 58vw, 270px);
+            display: flex; flex-direction: column;
+        }
+        .dep-card {
+            position: relative; width: 100%; aspect-ratio: 9 / 16;
+            border-radius: 18px; overflow: hidden;
+            background: var(--bg-3); border: 1px solid rgba(200,144,10,.22);
+            box-shadow: 0 24px 50px rgba(0,0,0,.5);
+            transition: transform .3s, border-color .3s, box-shadow .3s; cursor: pointer;
+        }
+        .dep-card:hover { transform: translateY(-6px); border-color: rgba(200,144,10,.5); box-shadow: 0 30px 60px rgba(0,0,0,.6); }
+        .dep-card img, .dep-card video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+        /* legenda explicativa abaixo do vídeo */
+        .dep-legenda {
+            margin-top: 14px; font-size: 14px; line-height: 1.6;
+            color: var(--text); font-style: italic;
+            border-left: 2px solid var(--gold); padding-left: 12px;
+        }
+        .dep-badge {
+            position: absolute; top: 12px; left: 12px; z-index: 2;
+            font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+            background: rgba(0,0,0,.55); color: var(--gold-3);
+            border: 1px solid rgba(200,144,10,.3); padding: 4px 9px; border-radius: 50px;
+            backdrop-filter: blur(6px);
+        }
+        .dep-play {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            width: 56px; height: 56px; border-radius: 50%;
+            background: rgba(200,144,10,.94); color: #000;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; padding-left: 3px; pointer-events: none;
+            box-shadow: 0 6px 24px rgba(0,0,0,.5); transition: transform .25s;
+        }
+        .dep-card:hover .dep-play { transform: translate(-50%,-50%) scale(1.1); }
+
+        /* lightbox */
+        .dep-lightbox {
+            position: fixed; inset: 0; z-index: 1000; padding: 24px;
+            background: rgba(5,5,5,.93); backdrop-filter: blur(8px);
+            display: none; align-items: center; justify-content: center;
+        }
+        .dep-lightbox.open { display: flex; }
+        .dep-lightbox-box {
+            display: flex; flex-direction: column; align-items: center; gap: 16px;
+            width: 100%; max-width: min(420px, 92vw); max-height: 92vh;
+        }
+        .dep-lightbox-inner {
+            position: relative; width: 100%;
+            aspect-ratio: 9 / 16; max-height: 78vh;
+            border-radius: 18px; overflow: hidden; background: #000;
+            box-shadow: 0 30px 90px rgba(0,0,0,.7); border: 1px solid rgba(200,144,10,.25);
+        }
+        .dep-lightbox-inner video, .dep-lightbox-inner img { width: 100%; height: 100%; object-fit: contain; background: #000; display: block; }
+        .dep-lb-legenda {
+            color: var(--off); font-size: 15px; line-height: 1.6; text-align: center;
+            font-style: italic; max-width: 100%;
+        }
+        .dep-close {
+            position: absolute; top: 18px; right: 18px; z-index: 1001;
+            width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
+            background: rgba(0,0,0,.6); color: #fff; font-size: 20px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(255,255,255,.15); transition: background .2s;
+        }
+        .dep-close:hover { background: rgba(200,144,10,.3); }
+        @media(max-width:600px) {
+            .dep-item { width: clamp(190px, 62vw, 230px); }
+            .dep-close { top: 12px; right: 12px; }
+        }
+
 </style>
 </head>
 <body>
@@ -826,10 +911,10 @@
     <div class="container">
         <div class="hero-grid">
             <div>
+                <span class="hero-eyebrow rv">Sua maior travada em vendas tem resposta. Agora ela está aqui, <strong>24h por dia.</strong></span>
                 <h1 class="hero-title-gold rv">
                     Tenha o cérebro da Adriana Castro na palma da sua mão
                 </h1>
-                 <span class="hero-eyebrow rv">Sua maior travada em vendas tem resposta. Agora ela está aqui, <strong>24h por dia.</strong></span>
                 <p class="sub hero-sub rv">
                     Tudo que a Adriana Castro construiu em 25 anos ensinando os maiores times de vendas do Brasil, cada técnica, cada framework, cada resposta que ela já deu em mentoria, agora está na palma da sua mão, <strong>24 horas por dia, 7 dias por semana.</strong>
                 </p>
@@ -912,6 +997,7 @@
     <div class="container">
         <div class="pain-hd rv">
             <span class="tag">Você se identifica?</span>
+            <h2 class="h2">Você está deixando dinheiro na mesa todos os dias</h2>
         </div>
         <div class="pain-intro rv">
             <p class="lead">Você se dedica, atende bem e acredita no que vende.</p>
@@ -1148,24 +1234,20 @@
         <div class="res-hd rv">
             <span class="tag">O que muda na prática</span>
             <h2 class="h2">Resultados reais de quem usa no dia a dia comercial</h2>
-        </div>
-        <div class="res-grid">
-            <!-- PLACEHOLDER — insira print de conversa/resultado + depoimento -->
-            <div class="res-card rv">
-                <div class="res-print">[ Print de conversa / resultado ]</div>
-                <div class="res-quote">[Insira depoimento específico com cenário, ação feita com a IA e resultado concreto.]</div>
-            </div>
-            <div class="res-card rv">
-                <div class="res-print">[ Print de conversa / resultado ]</div>
-                <div class="res-quote">[Insira depoimento específico com cenário, ação feita com a IA e resultado concreto.]</div>
-            </div>
-            <div class="res-card rv">
-                <div class="res-print">[ Print de conversa / resultado ]</div>
-                <div class="res-quote">[Insira depoimento específico com cenário, ação feita com a IA e resultado concreto.]</div>
-            </div>
+            <p class="sub" style="margin:0 auto;">Arraste para o lado ou toque para assistir. Depoimentos reais de quem usa o Copiloto MQV.</p>
         </div>
     </div>
+    <!-- Galeria horizontal (rola sozinha da direita → esquerda; arrastável) -->
+    <div class="gallery-viewport rv" id="depViewport">
+        <div class="gallery-track" id="depTrack"></div>
+    </div>
 </section>
+
+<!-- Lightbox dos depoimentos (abre vídeo/imagem em tela cheia) -->
+<div class="dep-lightbox" id="depLightbox" role="dialog" aria-modal="true">
+    <button class="dep-close" id="depClose" aria-label="Fechar">✕</button>
+    <div class="dep-lightbox-box" id="depLightboxBox"></div>
+</div>
 
 <!-- ════════════════════════════════════════════════
      SEÇÃO 10 — INVISTA NA SUA EVOLUÇÃO EM VENDAS
@@ -1340,6 +1422,138 @@ function toggleFaq(item) {
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
     if (!was) item.classList.add('open');
 }
+
+/* ══════════════════════════════════════════════════════════════
+   GALERIA DE DEPOIMENTOS  (vídeo + imagem · 1080x1920 · 9:16)
+   ────────────────────────────────────────────────────────────
+   👉 PARA ADICIONAR SEUS DEPOIMENTOS: edite a lista abaixo.
+      Cada item tem:
+        tipo   : 'video'  ou  'imagem'
+        src    : caminho/URL do arquivo (.mp4 / .jpg / .png)
+        poster : (só vídeo, opcional) imagem de capa do vídeo
+        nome   : nome de quem deu o depoimento (opcional)
+        cargo  : cargo · empresa (opcional)
+      A ordem da lista é a ordem que aparece na galeria.
+   ══════════════════════════════════════════════════════════════ */
+const depoimentos = [
+    // ── VÍDEOS (têm legenda explicativa abaixo) ──
+    { tipo: 'video',  src: 'https://qvkeilmiglrzsvawmrzh.supabase.co/storage/v1/object/public/depoimentos/01.mov', poster: '', legenda: 'O MQV nos deu o passo a passo que nos trouxe até aqui e a IA Copiloto é o guia que garante que nenhum passo seja pulado.' },
+    { tipo: 'video',  src: 'https://qvkeilmiglrzsvawmrzh.supabase.co/storage/v1/object/public/depoimentos/02.mov', poster: '', legenda: 'Clareza nos processos, confiança na execução. É exatamente isso que a IA Copiloto MQV coloca na sua mão, a qualquer momento.' },
+    { tipo: 'video',  src: 'https://qvkeilmiglrzsvawmrzh.supabase.co/storage/v1/object/public/depoimentos/03.mov', poster: '', legenda: 'Técnica com começo, meio e fim. A IA Copiloto MQV está aqui para te dar o respaldo certo na hora certa do atendimento.' },
+    { tipo: 'video',  src: 'https://qvkeilmiglrzsvawmrzh.supabase.co/storage/v1/object/public/depoimentos/04.mp4', poster: '', legenda: 'A IA Copiloto MQV é o catalisador do seu resultado: quando bater o bloqueio, você já sabe o que fazer.' },
+
+    // ── IMAGENS (apenas a imagem, sem legenda) ──
+    { tipo: 'imagem', src: 'https://qvkeilmiglrzsvawmrzh.supabase.co/storage/v1/object/public/depoimentos/DEPOIMENTO_AUDIO.png' },
+    { tipo: 'imagem', src: 'https://qvkeilmiglrzsvawmrzh.supabase.co/storage/v1/object/public/depoimentos/DEPOIMENTO_PDF.png' },
+    { tipo: 'imagem', src: 'https://qvkeilmiglrzsvawmrzh.supabase.co/storage/v1/object/public/depoimentos/DEPOIMENTO_PRINT.png' },
+    { tipo: 'imagem', src: 'https://qvkeilmiglrzsvawmrzh.supabase.co/storage/v1/object/public/depoimentos/DEPOIMENTO_TEXTO.png' },
+];
+
+const depTrack    = document.getElementById('depTrack');
+const depViewport = document.getElementById('depViewport');
+const depLightbox = document.getElementById('depLightbox');
+const depLbBox    = document.getElementById('depLightboxBox');
+
+function esc(s){ return (s||'').replace(/"/g,'&quot;'); }
+
+function buildDepCard(d){
+    const item = document.createElement('div');
+    item.className = 'dep-item';
+
+    const card = document.createElement('div');
+    card.className = 'dep-card';
+    let media;
+    if (d.tipo === 'video') {
+        media = d.poster
+            ? `<img src="${esc(d.poster)}" alt="Depoimento" loading="lazy">`
+            : `<video src="${esc(d.src)}#t=0.1" muted playsinline preload="metadata"></video>`;
+        card.innerHTML = `${media}<span class="dep-badge">▶ Vídeo</span><div class="dep-play">▶</div>`;
+    } else {
+        card.innerHTML = `<img src="${esc(d.src)}" alt="Depoimento" loading="lazy">`;
+    }
+    card.addEventListener('click', () => { if (!moved) openDep(d); });
+    item.appendChild(card);
+
+    // legenda explicativa abaixo (somente vídeos)
+    if (d.tipo === 'video' && d.legenda) {
+        const cap = document.createElement('p');
+        cap.className = 'dep-legenda';
+        cap.textContent = d.legenda;
+        item.appendChild(cap);
+    }
+    return item;
+}
+
+if (depTrack && depoimentos.length) {
+    // Renderiza a lista duas vezes para loop infinito sem emenda
+    depoimentos.forEach(d => depTrack.appendChild(buildDepCard(d)));
+    depoimentos.forEach(d => depTrack.appendChild(buildDepCard(d)));
+}
+
+/* ── auto-scroll direita → esquerda ── */
+let depPaused = false, halfWidth = 0;
+function measureDep(){ if (depTrack) halfWidth = depTrack.scrollWidth / 2; }
+window.addEventListener('load', measureDep);
+window.addEventListener('resize', measureDep);
+setTimeout(measureDep, 600);
+
+function depTick(){
+    if (depViewport && !depPaused && halfWidth > 0) {
+        depViewport.scrollLeft += 0.6;             // velocidade do movimento
+        if (depViewport.scrollLeft >= halfWidth) { // loop perfeito
+            depViewport.scrollLeft -= halfWidth;
+        }
+    }
+    requestAnimationFrame(depTick);
+}
+requestAnimationFrame(depTick);
+
+/* ── pausa no hover (desktop) ── */
+function depResume(){ if (!depLightbox.classList.contains('open') && !isDown) depPaused = false; }
+if (depViewport) {
+    depViewport.addEventListener('pointerenter', () => depPaused = true);
+    depViewport.addEventListener('pointerleave', depResume);
+}
+
+/* ── arrastar/swipe ── */
+let isDown = false, startX = 0, startScroll = 0, moved = false;
+if (depViewport) {
+    depViewport.addEventListener('pointerdown', e => {
+        isDown = true; moved = false; depPaused = true;
+        startX = e.pageX; startScroll = depViewport.scrollLeft;
+        depViewport.classList.add('dragging');
+    });
+    depViewport.addEventListener('pointermove', e => {
+        if (!isDown) return;
+        const dx = e.pageX - startX;
+        if (Math.abs(dx) > 5) moved = true;
+        depViewport.scrollLeft = startScroll - dx;
+    });
+    const endDrag = () => { if (!isDown) return; isDown = false; depViewport.classList.remove('dragging'); depResume(); };
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+}
+
+/* ── lightbox ── */
+function openDep(d){
+    depPaused = true;
+    const frame = d.tipo === 'video'
+        ? `<div class="dep-lightbox-inner"><video src="${esc(d.src)}" controls autoplay playsinline ${d.poster ? `poster="${esc(d.poster)}"` : ''}></video></div>`
+        : `<div class="dep-lightbox-inner"><img src="${esc(d.src)}" alt="Depoimento"></div>`;
+    const cap = (d.tipo === 'video' && d.legenda) ? `<p class="dep-lb-legenda">${d.legenda}</p>` : '';
+    depLbBox.innerHTML = frame + cap;
+    depLightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeDep(){
+    depLightbox.classList.remove('open');
+    depLbBox.innerHTML = '';
+    document.body.style.overflow = '';
+    depPaused = false;
+}
+document.getElementById('depClose').addEventListener('click', closeDep);
+depLightbox.addEventListener('click', e => { if (e.target === depLightbox) closeDep(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && depLightbox.classList.contains('open')) closeDep(); });
 </script>
 </body>
 </html>
